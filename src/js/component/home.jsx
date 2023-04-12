@@ -1,27 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-//create your first component
+const SecondsCounter = ({ seconds }) => {
+  return (
+    <div className="text-center">
+      <div className="main">
+        <h1>Check Out My Counter:</h1>
+        <br />
+        <h3>{seconds}</h3>
+      </div>
+    </div>
+  );
+};
+
 const Home = () => {
-	const [count, setCount] = useState(0);
-	const countUp = () => (
-		setCount(count + 1)
-	)
+  const [seconds, setSeconds] = useState(0);
 
-	const countDown = () => (
-		setCount(count - 1)
-	)
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setSeconds((prevSeconds) => prevSeconds + 1);
+    }, 1000);
 
-	return (
-		<div className="text-center">
-			<div className="main">
-				<h1>Check out my Counter:</h1><br></br>
-				<h3>{count}</h3>
-				<br></br>
-				<button onClick={countUp} className="btn btn-success me-3 button1">Up</button>
-				<button onClick={countDown} className="btn btn-danger me-3 button1">Down</button>
-			</div>
-		</div>
-	);
+    return () => clearInterval(intervalId);
+  }, []);
+
+  return <SecondsCounter seconds={seconds} />;
 };
 
 export default Home;
